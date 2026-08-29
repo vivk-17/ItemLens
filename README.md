@@ -1,11 +1,90 @@
 # ItemLens
 
+An addon for World of Warcraft 1.12.1 on the [Emberveil](https://emberveil.org) server.
+
+A closer look at items: what a vendor pays, what one would change about the
+gear you are wearing, and what the loot was worth.
+
+![version](https://img.shields.io/badge/version-0.1.0-blue) ![client](https://img.shields.io/badge/client-1.12.1-orange)
+
+[Русский](#itemlens-по-русски)
+
+## What it does
+
+- **Vendor price in the tooltip.** The client has no price API, so the addon
+  learns prices at a merchant: while the vendor window is open the tooltip
+  reports the price of a stack, and those numbers are remembered. After that
+  the price shows in the bags, in the loot window and on quest rewards — per
+  stack and per item.
+- **Shift compares with worn gear.** The difference in every stat: green for a
+  gain, red for a loss. Rings, trinkets and one-handers are compared against
+  both slots.
+- **Loot total in chat.** One line per corpse: what you picked up and what it
+  is worth.
+- **Selling greys** automatically at a merchant, with a protection list.
+- **Repairing** at a merchant with a spending ceiling. Off by default.
+- **Bag and bank value.** The bank is counted while its window is open and
+  remembered until the next visit.
+- A minimap button, a settings window, Russian and English.
+
+## Installation
+
+1. Download the archive from [releases](../../releases).
+2. Unpack the `ItemLens` folder into `Interface/AddOns`.
+3. The path should end up like this: `Interface/AddOns/ItemLens/ItemLens.toc`
+
+Visit any merchant once and the prices collect themselves.
+
+## Commands
+
+The full name is `/itemlens`, the short one `/il`.
+
+| Command | What it does |
+| --- | --- |
+| `/il config` | the settings window (same as the minimap button) |
+| `/il worth` | what the bags and the bank are worth |
+| `/il scan` | collect prices right now, at a merchant |
+| `/il compare` | the Shift comparison on or off |
+| `/il repair` / `/il repair 2g` | auto repair and the spending ceiling |
+| `/il autosell`, `/il keep <name>` | selling greys, and protecting an item |
+| `/il loot 2` | delay before the loot total |
+| `/il mode vendor\|stack\|each` | how the price is shown |
+| `/il lang ru\|en\|auto` | language |
+| `/il probe`, `/il tiptest` | self-diagnostics |
+
+## For other addon authors
+
+ItemLens declares four functions. Calling them is safe behind a
+`type(...) == "function"` check — without ItemLens nothing breaks:
+
+```lua
+ItemLens_BagValue()            -- copper, prices known, prices unknown
+ItemLens_BankValue()           -- the same for the bank, plus a "fresh" flag
+ItemLens_SlotPrice(bag, slot)  -- price per item in a slot
+ItemLens_Format(copper)        -- "12g 30s 5c", coloured
+```
+
+That is how the [AllBags](https://github.com/vivk-17/AllBags) bag window shows
+the total value of what you are carrying.
+
+## Client quirks
+
+Found along the way, and possibly useful to someone else:
+
+- inline textures (`|T...|t`) are not rendered — coins have to be letters;
+- colour codes are stripped when a tooltip line is read back;
+- lines past `NumLines` still hold the text of the previous tooltip;
+- a line cannot be removed from a tooltip, only the whole thing redrawn;
+- the mouse wheel over an addon window is taken by the camera.
+
+---
+
+# ItemLens по-русски
+
 Аддон для World of Warcraft 1.12.1 (сервер [Emberveil](https://emberveil.org)).
 
 Взгляд на предмет вблизи: сколько он стоит у торговца, что даст взамен
 надетого и во сколько обошлась добыча.
-
-![версия](https://img.shields.io/badge/version-0.1.0-blue) ![клиент](https://img.shields.io/badge/client-1.12.1-orange)
 
 ## Что умеет
 
@@ -72,32 +151,6 @@ ItemLens_Format(copper)        -- «12g 30s 5c» с цветами
 - убрать строку из подсказки нельзя, только перерисовать её целиком;
 - колесо мыши над окном аддона забирает камера.
 
----
-
-# ItemLens (English)
-
-An addon for World of Warcraft 1.12.1 on the [Emberveil](https://emberveil.org)
-server: a closer look at items — what a vendor pays, what an item would change
-about your gear, and what the loot was worth.
-
-## Features
-
-- **Vendor price in the tooltip.** The client has no price API, so the addon
-  learns prices from the merchant window and remembers them. Works in the bags,
-  the loot window and on quest rewards.
-- **Shift compares with worn gear**, stat by stat, both slots for rings,
-  trinkets and one-handers.
-- **Loot total in chat**, one line per corpse.
-- **Selling greys** automatically, with a protection list.
-- **Repairing** at a merchant, with a spending ceiling. Off by default.
-- **Bag and bank value**, the bank counted while its window is open.
-- A minimap button, a settings window, Russian and English.
-
-## Installation
-
-Unpack the `ItemLens` folder into `Interface/AddOns` so that
-`Interface/AddOns/ItemLens/ItemLens.toc` exists, then visit any merchant once.
-
-## Licence
+## Лицензия / Licence
 
 MIT — see [LICENSE](LICENSE).
