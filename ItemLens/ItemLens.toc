@@ -1,0 +1,9 @@
+## Interface: 11200
+## Title: ItemLens
+## Notes: A closer look at items: vendor prices in tooltips, what your loot is worth, automatic selling of greys, and a Shift comparison against the gear you are wearing.
+## Notes-ruRU: Взгляд на предмет вблизи: цены торговца в подсказках, стоимость лута, автопродажа серых и сравнение по Shift с надетой вещью.
+## Author: Vivk
+## Version: 0.1.0
+## SavedVariables: ItemLensDB
+
+ItemLens.lua
