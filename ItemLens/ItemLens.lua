@@ -2276,5 +2276,4 @@ driver:RegisterEvent("BAG_UPDATE")
 SLASH_ITEMLENS1 = "/itemlens"
 SLASH_ITEMLENS2 = "/il"
 SLASH_ITEMLENS3 = "/ip"          -- short and familiar
-
 SlashCmdList["ITEMLENS"] = HandleSlash
